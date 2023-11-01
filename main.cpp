@@ -69,14 +69,28 @@ void loopBackwards(short R[][N], int i, int counter) {
         R[i][N - 1 -k] = 50 + counter - k;
     }
 }
+
 void loopBackwardsFromPoint(short R[][N], int i, int counter) {
     for (int k = 1; k <= counter; k++) {
         R[i][counter - k] = 50 - k;
     }
 }
 
-void
-computeRays_0_45 (short R[][N], double angle)
+void loopBackwardsDecrementing(short R[][N], int i, int counter) {
+    int j = 0;
+    for (int k = counter; k > 0; k--) {
+        R[N - 1 - k][i] = 50 - k;
+        j++;
+    }
+}
+
+void loopBackwardsFromPointIncrementing(short R[][N], int i, int counter) {
+    for (int k = 1; k <= counter; k++) {
+        R[i][counter - k] = 50 + k;
+    }
+}
+
+void computeRays_0_45 (short R[][N], double angle)
 {
   int intercept = round (angle * (N - 1) / 45.0);
   drawline (R, 0, 0, N - 1, intercept, rayValue);
@@ -106,11 +120,27 @@ computeRays_0_45 (short R[][N], double angle)
 void
 computeRays_45_90 (short R[][N], double angle)
 {
-  int first0Right = 0;
-  int first0Left = 0;
   int intercept = round ((90 - angle) * (N - 1) / 45.0);
   drawline (R, 0, 0, intercept, N - 1, rayValue);
-
+for (int i = 0; i < N; i++) {
+        int downCounter = 0;
+        int upCounter = 0;
+        bool past50 = false;
+    for (int j = 0; j < N - 1; j++) {
+        if (R[j][i] == 50) {
+            past50 = true;
+        } 
+        if (past50 == false) {
+            downCounter+=1;
+        } 
+        if (past50 == true) {
+            upCounter += 1;
+        }
+        
+  }    
+    loopBackwardsDecrementing(R, i, upCounter);
+    loopBackwardsFromPointIncrementing(R, i, downCounter);
+  }
   
 }
 
